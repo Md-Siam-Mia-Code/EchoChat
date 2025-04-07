@@ -128,7 +128,6 @@ Please stick to the project's code style and add tests if you can! ✅
 
 *   Inspired by modern messaging applications and neumorphic design trends. ✨
 *   Huge thanks to the creators of Font Awesome <i class="fa-brands fa-font-awesome"></i> and Google Fonts 🅰️.
-*   *(Add any other shoutouts here!)* 📣
 
 ---
 
