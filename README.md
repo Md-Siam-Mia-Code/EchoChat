@@ -1,9 +1,11 @@
-# EchoChat
+<img src="assets/Banner.png" alt="EchoChat Banner"></img>
+
+# ✨EchoChat🌟
 
 **EchoChat brings real-time communication to life with a sleek, modern interface inspired by popular messengers, now wrapped in a sophisticated Black & White Neumorphic theme! Connect instantly, chat seamlessly.** 😎
 
 <br/>
-<img src="assets/WebUI.png" alt="EchoChat B&W Neumorphic UI Screenshot"></img>
+<img src="assets/WebUI.png" alt="EchoChat UI"></img>
 
 ---
 
