@@ -1,0 +1,24 @@
+{
+	"name": "echochat",
+	"version": "1.0.0",
+	"description": "Chat application",
+	"scripts": {
+		"dev": "npx wrangler dev",
+		"deploy": "npx wrangler deploy",
+		"db:setup": "npx wrangler d1 execute echochat-db --file ./schema.sql --local",
+		"db:setup-remote": "npx wrangler d1 execute echochat-db --file ./schema.sql --remote"
+	},
+	"keywords": [
+		"chat",
+		"cloudflare",
+		"workers",
+		"d1",
+		"durable objects"
+	],
+	"author": "Md. Siam Mia",
+	"license": "ISC",
+	"devDependencies": {
+		"@cloudflare/kv-asset-handler": "^0.3.0",
+		"wrangler": "^3.0.0"
+	}
+}

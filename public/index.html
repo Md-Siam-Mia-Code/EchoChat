@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light"> <!-- Start with light theme -->
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>EchoChat | Your private messenger</title>
+
+	<!-- Google Font: Poppins -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+		integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+	<!-- Link Stylesheet -->
+	<link rel="stylesheet" href="style.css">
+</head>
+
+<body> <!-- Body tag used for panel active class -->
+
+	<!-- Loading / Initial State -->
+	<div id="loading-screen" class="loading-overlay" style="display: flex;">
+		<div class="loading-box">
+			<i class="fas fa-spinner fa-spin loading-icon"></i>
+			<p>Loading EchoChat...</p>
+		</div>
+	</div>
+
+	<!-- Onboarding Screen (Admin Setup) -->
+	<div id="onboarding-screen" class="modal" style="display: none;">
+		<div class="modal-content">
+			<button class="button modal-close-button" aria-label="Close onboarding modal"><i
+					class="fa-solid fa-xmark"></i></button>
+			<i class="modal-icon fa-solid fa-shield-halved" aria-hidden="true"></i>
+			<h2>Admin Account Setup</h2>
+			<p class="modal-instructions">Create the primary administrator account for EchoChat.</p>
+			<div id="onboarding-error" class="error modal-error" role="alert"></div>
+			<form id="onboarding-form" novalidate>
+				<div class="form-group"><label for="onboarding-username">Admin Username</label><input type="text"
+						id="onboarding-username" class="input-field" name="username" required></div>
+				<div class="form-group"><label for="onboarding-password">Admin Password (min 8)</label><input
+						type="password" id="onboarding-password" class="input-field" name="password" required>
+				</div>
+				<div class="form-group"><label for="onboarding-master-password">Master Password (min
+						10)</label><input type="password" id="onboarding-master-password" class="input-field"
+						name="masterPassword" required aria-describedby="master-password-desc">
+					<p id="master-password-desc" class="form-hint">Grants access to the admin dashboard.</p>
+				</div>
+				<button type="submit" id="onboarding-submit" class="button button-primary"><span
+						class="button-text">Create Admin</span><i
+						class="fa-solid fa-spinner fa-spin button-spinner" style="display: none;"></i></button>
+			</form>
+		</div>
+	</div>
+
+	<!-- Login Screen (Users & Admin Master Password) -->
+	<div id="login-screen" class="modal" style="display: none;">
+		<div class="modal-content">
+			<button class="button modal-close-button" aria-label="Close login modal"><i
+					class="fa-solid fa-xmark"></i></button>
+			<i class="modal-icon fa-solid fa-user-lock" aria-hidden="true"></i>
+			<h2>EchoChat Login</h2>
+			<p class="modal-instructions">Log in or create an account.</p>
+			<div id="login-error" class="error modal-error" role="alert"></div>
+			<div class="tabs"><button id="user-login-tab" class="tab-button active"
+					data-target="user-login-form">User</button><button id="admin-login-tab" class="tab-button"
+					data-target="admin-login-form">Admin</button></div>
+			<form id="user-login-form" class="login-form-panel active-panel" novalidate>
+				<div class="form-group"><label for="login-username">Username</label><input type="text"
+						id="login-username" class="input-field" name="username" required></div>
+				<div class="form-group"><label for="login-password">Password</label><input type="password"
+						id="login-password" class="input-field" name="password" required></div>
+				<button type="submit" id="login-submit" class="button button-primary"><span
+						class="button-text">Login</span><i class="fa-solid fa-spinner fa-spin button-spinner"
+						style="display: none;"></i></button>
+				<p class="form-switch-text">Don't have an account? <button type="button" id="show-register-button"
+						class="link-button">Register</button></p>
+			</form>
+			<form id="admin-login-form" class="login-form-panel" novalidate style="display: none;">
+				<div class="form-group"><label for="admin-master-password">Master Password</label><input
+						type="password" id="admin-master-password" class="input-field" name="masterPassword"
+						required></div>
+				<button type="submit" id="admin-login-submit" class="button button-primary"><span
+						class="button-text">Access Dashboard</span><i
+						class="fa-solid fa-spinner fa-spin button-spinner" style="display: none;"></i></button>
+				<p class="form-switch-text"><button type="button" class="link-button switch-to-user-login">Back to
+						User Login</button></p>
+			</form>
+			<form id="register-form" class="login-form-panel" novalidate style="display: none;">
+				<h2>Create Account</h2>
+				<div class="form-group"><label for="register-username">Username</label><input type="text"
+						id="register-username" class="input-field" name="username" required></div>
+				<div class="form-group"><label for="register-password">Password</label><input
+						type="password" id="register-password" class="input-field" name="password" required></div>
+				<div class="form-group"><label for="register-confirm-password">Confirm Password</label><input
+						type="password" id="register-confirm-password" class="input-field" name="confirmPassword"
+						required></div>
+				<button type="submit" id="register-submit" class="button button-primary"><span
+						class="button-text">Register</span><i class="fa-solid fa-spinner fa-spin button-spinner"
+						style="display: none;"></i></button>
+				<p class="form-switch-text">Already have an account? <button type="button" id="show-login-button"
+						class="link-button">Login</button></p>
+			</form>
+		</div>
+	</div>
+
+
+	<!-- Main Chat Application -->
+	<div id="chat-app" class="chat-layout" style="display: none;">
+		<!-- Left Panel: Conversations List (Mobile Slider) -->
+		<aside class="left-panel">
+			<header class="panel-header">
+				<div class="user-profile-summary">
+					<div class="avatar avatar-small" id="my-avatar-summary"><i class="fa-solid fa-user"></i></div>
+					<span id="my-username-summary" class="user-name-display">My Username</span>
+				</div>
+				<div class="panel-actions">
+					<button class="button icon-button" id="create-group-button" title="Create Group"><i
+							class="fa-solid fa-users"></i></button>
+					<button class="button icon-button" id="manage-blocks-button" title="Manage Blocked Users"><i
+							class="fa-solid fa-user-slash"></i></button>
+					<button class="button icon-button" id="theme-toggle-button" title="Toggle Theme"><i
+							class="fa-solid fa-sun"></i></button>
+					<button class="button icon-button" id="logout-button" title="Logout"><i
+							class="fa-solid fa-right-from-bracket"></i></button>
+				</div>
+			</header>
+			<div class="search-bar-container">
+				<div class="search-bar">
+					<i class="fa-solid fa-magnifying-glass search-icon"></i>
+					<input type="search" id="conversation-search" class="input-field"
+						placeholder="Search chats or users...">
+				</div>
+			</div>
+			<nav class="conversation-list" id="conversation-list-area">
+				<div class="list-placeholder" id="conversation-list-placeholder">Loading chats...</div>
+			</nav>
+		</aside>
+
+		<!-- Right Panel: Chat View -->
+		<main class="right-panel">
+			<div id="chat-view-placeholder" class="chat-view-placeholder">
+				<i class="fa-regular fa-comments placeholder-icon"></i>
+				<p>Select a conversation or user to start chatting</p>
+			</div>
+
+			<div id="chat-view-content" style="display: none;" class="chat-view-wrapper">
+				<header class="chat-header" id="chat-view-header">
+					<!-- Hamburger Menu Button (Mobile Only) -->
+					<button class="button icon-button" id="mobile-menu-toggle" title="Toggle Menu">
+						<i class="fa-solid fa-bars"></i>
+					</button>
+					<div class="contact-info">
+						<div class="avatar" id="chat-partner-avatar" data-user-id=""><i
+								class="fa-solid fa-user"></i></div>
+						<div class="contact-details">
+							<span class="contact-name" id="chat-partner-name">Select Chat</span>
+							<div class="status-and-typing">
+								<span class="contact-status offline" id="chat-partner-status"><i
+										class="fa-solid fa-circle status-indicator"></i> <span
+										id="chat-partner-status-text">Offline</span></span>
+								<span class="typing-indicator" id="chat-typing-indicator"
+									style="display: none;">typing...</span>
+							</div>
+						</div>
+					</div>
+					<div class="header-actions">
+						<button class="button icon-button" id="block-user-button" title="Block User"
+							style="display: none;"><i class="fa-solid fa-user-lock"></i></button>
+						<button class="button icon-button action-danger" id="delete-group-button"
+							title="Delete Group" style="display: none;"><i
+								class="fa-solid fa-trash-can"></i></button>
+						<button class="button icon-button" id="add-group-member-button"
+							title="Add Member to Group" style="display: none;"><i
+								class="fa-solid fa-user-plus"></i></button>
+						<button class="button icon-button" id="refresh-messages-button" title="Refresh Messages"
+							style="display: none;"><i class="fa-solid fa-rotate-right"></i><i
+								class="fa-solid fa-spinner fa-spin button-spinner"
+								style="display: none;"></i></button>
+					</div>
+				</header>
+				<div class="chat-messages" id="message-area">
+					<div class="message-placeholder-style" id="message-area-placeholder">Loading messages... <i
+							class="fa-solid fa-spinner fa-spin"></i></div>
+				</div>
+				<footer class="chat-input-area">
+					<textarea id="message-input" class="input-field textarea-input"
+						placeholder="Type your message..." rows="1"></textarea>
+					<button class="button send-button button-primary" id="send-button" title="Send Message"
+						disabled> <!-- Added button-primary -->
+						<i class="fa-solid fa-paper-plane send-icon"></i>
+						<i class="fa-solid fa-spinner fa-spin button-spinner" style="display: none;"></i>
+					</button>
+				</footer>
+			</div>
+		</main>
+
+		<!-- Mobile Panel Overlay -->
+		<div class="panel-overlay" id="panel-overlay"></div>
+	</div>
+
+	<!-- Admin Dashboard -->
+	<div id="admin-dashboard" class="admin-layout" style="display: none;">
+		<header class="admin-header">
+			<h1><i class="fa-solid fa-user-shield"></i> Admin Dashboard</h1>
+			<div class="header-actions">
+				<span id="admin-username-display" class="user-name-display">Admin</span>
+				<button class="button icon-button" id="admin-theme-toggle-button" title="Toggle Theme"><i
+						class="fa-solid fa-sun"></i></button>
+				<button class="button icon-button" id="admin-logout-button" title="Logout Admin"><i
+						class="fa-solid fa-right-from-bracket"></i></button>
+			</div>
+		</header>
+		<main class="admin-content">
+			<section class="admin-section" id="admin-stats">
+				<h2><i class="fa-solid fa-chart-simple"></i>Statistics</h2>
+				<div class="stats-grid">
+					<div class="stat-card"><i class="fa-solid fa-users stat-icon"></i><span class="stat-value"
+							id="stat-total-users">--</span><span class="stat-label">Total Users</span></div>
+					<div class="stat-card"><i class="fa-solid fa-comments stat-icon"></i><span class="stat-value"
+							id="stat-total-messages">--</span><span class="stat-label">Total Messages</span>
+					</div>
+					<div class="stat-card"><i class="fa-solid fa-user-group stat-icon"></i><span class="stat-value"
+							id="stat-total-groups">--</span><span class="stat-label">Total Groups</span></div>
+					<div class="stat-card"><i class="fa-solid fa-signal stat-icon"></i><span class="stat-value"
+							id="stat-active-users">--</span><span class="stat-label">Active Users
+							Now</span><small>(Realtime)</small></div>
+				</div>
+			</section>
+			<section class="admin-section" id="admin-user-management">
+				<h2><i class="fa-solid fa-users-gear"></i> User Management</h2>
+				<div id="admin-user-error" class="error modal-error"></div>
+				<div class="admin-actions-container">
+					<form id="admin-add-user-form" class="admin-form">
+						<h3><i class="fa-solid fa-user-plus"></i> Add New User</h3>
+						<div class="form-group"><label for="admin-add-username">Username</label><input type="text"
+								id="admin-add-username" class="input-field" required></div>
+						<div class="form-group"><label for="admin-add-password">Password</label><input
+								type="password" id="admin-add-password" class="input-field" required></div>
+						<div class="form-group form-check"><input type="checkbox" id="admin-add-isadmin"
+								class="styled-checkbox"><label for="admin-add-isadmin">Make
+								Administrator?</label></div>
+						<button type="submit" id="admin-add-user-button" class="button button-primary"><span
+								class="button-text">Add User</span><i
+								class="fa-solid fa-spinner fa-spin button-spinner"
+								style="display: none;"></i></button>
+					</form>
+					<div class="admin-user-list-container">
+						<h3><i class="fa-solid fa-list-ul"></i> Existing Users</h3>
+						<div class="table-container">
+							<table id="admin-user-list-table">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Username</th>
+										<th>Admin</th>
+										<th>Created</th>
+										<th>Actions</th>
+									</tr>
+								</thead>
+								<tbody id="admin-user-list-body">
+									<tr>
+										<td colspan="5" class="list-placeholder">Loading users...</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</section>
+		</main>
+	</div>
+
+	<!-- Modals (Create Group, Manage Blocks, Confirmation) -->
+	<div id="create-group-modal" class="modal" style="display: none;">
+		<div class="modal-content">
+			<button class="button modal-close-button" aria-label="Close create group modal"><i
+					class="fa-solid fa-xmark"></i></button>
+			<i class="modal-icon fa-solid fa-users-rectangle"></i>
+			<h2>Create New Group</h2>
+			<div id="create-group-error" class="error modal-error"></div>
+			<form id="create-group-form">
+				<div class="form-group"><label for="group-name">Group Name</label><input type="text" id="group-name"
+						class="input-field" required></div>
+				<div class="form-group"><label for="group-members-select">Select Members</label>
+					<div id="group-members-select" class="user-select-list">
+						<p class="list-placeholder">Loading users...</p>
+					</div>
+				</div>
+				<button type="submit" id="create-group-submit" class="button button-primary"><span
+						class="button-text">Create Group</span><i
+						class="fa-solid fa-spinner fa-spin button-spinner" style="display: none;"></i></button>
+			</form>
+		</div>
+	</div>
+	<div id="manage-blocks-modal" class="modal" style="display: none;">
+		<div class="modal-content">
+			<button class="button modal-close-button" aria-label="Close blocked users modal"><i
+					class="fa-solid fa-xmark"></i></button>
+			<i class="modal-icon fa-solid fa-user-slash"></i>
+			<h2>Blocked Users</h2>
+			<div id="manage-blocks-error" class="error modal-error"></div>
+			<div id="blocked-users-list" class="blocked-list">
+				<p class="list-placeholder" id="blocked-list-placeholder">Loading blocked users...</p>
+			</div>
+			<p class="modal-instructions" style="margin-top: 15px;">Users you block cannot send you direct messages.
+			</p>
+		</div>
+	</div>
+	<div id="confirmation-modal" class="confirmation-modal-overlay" style="display: none;" role="dialog"
+		aria-modal="true" aria-labelledby="confirmation-message">
+		<div class="confirmation-modal-box">
+			<p id="confirmation-message" class="confirmation-prompt">Are you sure?</p>
+			<div class="confirmation-buttons">
+				<button id="confirm-yes-button" class="button button-confirm">Yes</button>
+				<button id="confirm-no-button" class="button button-cancel">No</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- Global Error Banner -->
+	<div id="error-banner" class="error-banner" role="alert" style="display: none;">
+		<i class="fa-solid fa-circle-exclamation error-icon"></i>
+		<span id="error-banner-message">Error placeholder</span>
+		<button id="error-banner-close" class="error-banner-close" aria-label="Close error message"><i
+				class="fa-solid fa-xmark"></i></button>
+	</div>
+
+	<!-- Screen Reader Utility -->
+	<div class="sr-only" aria-hidden="true">End of EchoChat application content.</div>
+
+	<!-- linked logic -->
+	<script src="script.js"></script>
+</body>
+
+</html>

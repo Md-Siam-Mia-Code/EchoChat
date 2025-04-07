@@ -1,0 +1,49 @@
+{
+  "name": "echochat",
+  "main": "src/index.js",
+  // Use a recent compatibility date
+  "compatibility_date": "2024-05-02",
+  "d1_databases": [
+    {
+      // Make sure the binding name matches what's used in the code (env.DB)
+      "binding": "DB",
+      // Replace with your actual DB name if different
+      "database_name": "YOUR_DATABASE_NAME",
+      // Replace with your actual DB ID after creation
+      "database_id": "YOUR_DATABASE_ID"
+      // Use preview_database_id for wrangler dev local simulation if needed
+      // "preview_database_id": "local-db"
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        // Make sure binding name matches code (env.CHAT_DO)
+        "name": "CHAT_DO",
+        // Make sure class_name matches the exported DO class
+        "class_name": "ChatCoordinatorDO"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1", // Should match the initial creation or subsequent migrations
+      "new_classes": [
+        "ChatCoordinatorDO"
+      ]
+    }
+  ],
+  // Site configuration for serving static assets from ./public
+  "site": {
+    "bucket": "./public"
+  },
+  "vars": {
+    // Optional: Add environment variables here if needed
+    // "JWT_SECRET": "YOUR_SECRET_KEY_HERE" // Example for future JWT
+  }
+  /* // Add secrets configuration if using wrangler secret put
+   "secrets": [
+      "JWT_SECRET"
+   ]
+  */
+}

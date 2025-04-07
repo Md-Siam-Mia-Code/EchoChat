@@ -1,0 +1,1 @@
+npx wrangler d1 execute echochat-db --file ./schema.sql
