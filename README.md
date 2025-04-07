@@ -124,12 +124,6 @@ Please stick to the project's code style and add tests if you can! ✅
 
 ---
 
-## 📄 License 📜
-
-This project is licensed under the MIT License - see the `LICENSE` file (if applicable) for details.
-
----
-
 ## 🙏 Acknowledgements 🎉
 
 *   Inspired by modern messaging applications and neumorphic design trends. ✨
@@ -138,4 +132,4 @@ This project is licensed under the MIT License - see the `LICENSE` file (if appl
 
 ---
 
-### Happy Chatting with EchoChat!
+### ✨Happy Chatting with EchoChat!🚀
