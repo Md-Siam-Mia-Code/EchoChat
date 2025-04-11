@@ -68,7 +68,7 @@ Ready to dive in? Follow these steps to get EchoChat running locally:
 
 1.  **Clone the Repository:** 📂
     ```bash
-    git clone https://github.com/Md-Siam-Mia/EchoChat.git
+    git clone https://github.com/Md-Siam-Mia-Code/EchoChat.git
     cd EchoChat
     ```
 
