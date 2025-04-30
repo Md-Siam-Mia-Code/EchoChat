@@ -79,13 +79,22 @@ Ready to dive in? Follow these steps to get EchoChat running locally:
     ```
 
 3.  **Configuration (Required):** 📝
-    *   Fill in the required values (e.g., `DATABASE_NAME`, `DATABASE_ID` ) in the wrangler.jsonc.
+    *   Create a D1 database an fill in the required values (e.g., `DATABASE_NAME`, `DATABASE_ID` ) in the wrangler.jsonc.
+    ```bash
+    # Create the database
+    npx wrangler d1 create echochat-db
+    # Apply the schema
+    npx wrangler d1 execute connected-db --file ./schema.sql --remote
+    ```
 
 4.  **Run the Application:** ▶️
     ```bash
+    # Run localy
     npm start
     # or use 
-    wrangler dev
+    npx wrangler dev --assets ./public
+    # Deploy using
+    npx wrangler deploy --assets ./public
     ```
     *(This command should be defined in your `package.json`'s `scripts` section.)*
 
